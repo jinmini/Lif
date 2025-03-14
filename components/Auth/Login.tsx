@@ -8,17 +8,48 @@ import { motion } from "framer-motion";
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("username", username);
-    console.log("password", password);
-
-    if (username === "aaa" && password === "bbb") 
-      router.push('/dashboard');
-    else
-      router.push('/auth/failure');
+    setError('');
+    
+    try {
+      // 실제 API 호출 로직으로 대체해야 합니다
+      // 임시로 하드코딩된 값으로 로그인 처리
+      if (username && password) {
+        // 성공적인 로그인 처리
+        console.log("로그인 시도:", username, password);
+        
+        // 실제 환경에서는 아래와 같이 API 호출을 해야 합니다
+        // const response = await fetch('/api/auth/login', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ username, password }),
+        // });
+        
+        // if (!response.ok) {
+        //   throw new Error('로그인에 실패했습니다');
+        // }
+        
+        // const data = await response.json();
+        
+        // 임시 로그인 처리 (개발용)
+        if (username === "aaa" && password === "bbb") {
+          router.push('/dashboard');
+        } else {
+          router.push('/auth/failure');
+        }
+      } else {
+        setError('아이디와 비밀번호를 입력해주세요');
+      }
+    } catch (err) {
+      console.error('로그인 오류:', err);
+      setError('로그인 처리 중 오류가 발생했습니다');
+    }
   };
 
   return (
@@ -85,6 +116,12 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
+                
+                {error && (
+                  <div className="mb-4 text-red-500 text-sm text-center">
+                    {error}
+                  </div>
+                )}
               </div>
               
               <div className="mb-6 flex justify-end text-sm">
@@ -119,6 +156,7 @@ const Login = () => {
                   <button
                     aria-label="login with google"
                     className="flex h-11 w-11 items-center justify-center rounded-md border border-stroke bg-white text-black transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-strokedark dark:bg-black dark:text-white dark:hover:border-primary"
+                    type="button"
                   >
                     <svg
                       width="20"
@@ -156,6 +194,7 @@ const Login = () => {
                   <button
                     aria-label="login with github"
                     className="flex h-11 w-11 items-center justify-center rounded-md border border-stroke bg-white text-black transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-strokedark dark:bg-black dark:text-white dark:hover:border-primary"
+                    type="button"
                   >
                     <svg
                       fill="currentColor"

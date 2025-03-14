@@ -1,19 +1,16 @@
-import Signin from "@/components/Auth/Signin";
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "로그인 - LIF",
-
-  // other metadata
-  description: "Life, Intelligence, Future - 로그인 페이지"
-};
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const SigninPage = () => {
-  return (
-    <>
-      <Signin />
-    </>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/login");
+  }, [router]);
+
+  return null;
 };
 
 export default SigninPage;
