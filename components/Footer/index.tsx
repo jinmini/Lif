@@ -32,17 +32,9 @@ const Footer = () => {
                 <Link href="/" className="relative">
                   <Image
                     width={110}
-                    height={80}
-                    src="/images/logo/logo-light.svg"
-                    alt="Logo"
-                    className="dark:hidden"
-                  />
-                  <Image
-                    width={110}
-                    height={80}
-                    src="/images/logo/logo-dark.svg"
-                    alt="Logo"
-                    className="hidden dark:block"
+                    height={60}
+                    src="/images/logo/lif-logo.svg"
+                    alt="LIF 로고"
                   />
                 </Link>
 

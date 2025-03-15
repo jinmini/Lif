@@ -2,14 +2,17 @@
 
 import React, { useState, FormEvent } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion } from "framer-motion";
+import { useAuth } from '@/app/context/AuthContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,6 +42,7 @@ const Login = () => {
         
         // 임시 로그인 처리 (개발용)
         if (username === "aaa" && password === "bbb") {
+          login(username); // 로그인 상태 업데이트
           router.push('/dashboard');
         } else {
           router.push('/auth/failure');
@@ -78,8 +82,16 @@ const Login = () => {
           >
             <div className="mb-8 text-center">
               <Link href="/" className="inline-block no-underline">
-                <h1 className="text-5xl font-black text-green-700 tracking-tight uppercase">LIF</h1>
-                <p className="text-lg text-green-700 italic mt-1 tracking-wide">Life, Intelligence, Future</p>
+                <div className="flex flex-col items-center">
+                  <Image
+                    src="/images/logo/lif-logo.svg"
+                    alt="LIF 로고"
+                    width={150}
+                    height={60}
+                    className="mb-2"
+                  />
+                  <p className="text-lg text-green-700 italic mt-1 tracking-wide">Life, Intelligence, Future</p>
+                </div>
               </Link>
             </div>
             

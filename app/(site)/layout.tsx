@@ -10,6 +10,7 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 import ToasterContext from "../context/ToastContext";
+import { AuthProvider } from "../context/AuthContext";
 
 export default function RootLayout({
   children,
@@ -24,12 +25,14 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="light"
         >
-          <Lines />
-          <Header />
-          <ToasterContext />
-          {children}
-          <Footer />
-          <ScrollToTop />
+          <AuthProvider>
+            <Lines />
+            <Header />
+            <ToasterContext />
+            {children}
+            <Footer />
+            <ScrollToTop />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

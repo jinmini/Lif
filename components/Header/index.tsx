@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/app/context/AuthContext";
 
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
@@ -11,8 +12,11 @@ const Header = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const pathUrl = usePathname();
+  const router = useRouter();
+  const { user, isAuthenticated, logout } = useAuth();
 
   // Sticky menu
   const handleStickyMenu = () => {
@@ -27,30 +31,29 @@ const Header = () => {
     window.addEventListener("scroll", handleStickyMenu);
   });
 
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+    setUserMenuOpen(false);
+  };
+
   return (
     <header
       className={`fixed left-0 top-0 z-99999 w-full py-7 ${
         stickyMenu
           ? "bg-white !py-4 shadow transition duration-100 dark:bg-black"
-          : ""
+          : "bg-white dark:bg-black"
       }`}
     >
       <div className="relative mx-auto max-w-c-1390 items-center justify-between px-4 md:px-8 xl:flex 2xl:px-0">
         <div className="flex w-full items-center justify-between xl:w-1/4">
           <a href="/">
             <Image
-              src="/images/logo/logo-dark.svg"
+              src="/images/logo/lif-logo.svg"
               alt="LIF 로고"
-              width={119.03}
-              height={30}
-              className="hidden w-full dark:block"
-            />
-            <Image
-              src="/images/logo/logo-light.svg"
-              alt="LIF 로고"
-              width={119.03}
-              height={30}
-              className="w-full dark:hidden"
+              width={120}
+              height={60}
+              className="w-full"
             />
           </a>
 
@@ -154,12 +157,55 @@ const Header = () => {
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
             <ThemeToggler />
 
-            <Link
-              href="/login"
-              className="text-regular font-medium text-waterloo hover:text-primary"
-            >
-              로그인
-            </Link>
+            {isAuthenticated && user ? (
+              <div className="relative">
+                <button 
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 text-regular font-medium text-waterloo hover:text-primary"
+                >
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-6 w-6" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
+                    />
+                  </svg>
+                  <span>{user.username}</span>
+                </button>
+                
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-blacksection">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      내 정보
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    >
+                      로그아웃
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/auth/login"
+                className="text-regular font-medium text-waterloo hover:text-primary"
+              >
+                로그인
+              </Link>
+            )}
           </div>
         </div>
       </div>

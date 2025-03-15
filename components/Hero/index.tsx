@@ -31,22 +31,6 @@ const Hero = () => {
                 당신의 미래를 설계하세요.
               </p>
 
-              <div className="mt-10">
-                <div className="flex flex-wrap gap-5">
-                  <Link
-                    href="/login"
-                    className="flex rounded-full bg-primary px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-primaryho"
-                  >
-                    시작하기
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    className="flex rounded-full bg-black px-7.5 py-2.5 text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
-                  >
-                    대시보드
-                  </Link>
-                </div>
-              </div>
             </div>
 
             <div className="animate_right hidden md:w-1/2 lg:block">
