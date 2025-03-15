@@ -22,28 +22,18 @@ const Login = () => {
       // 실제 API 호출 로직으로 대체해야 합니다
       // 임시로 하드코딩된 값으로 로그인 처리
       if (username && password) {
-        // 성공적인 로그인 처리
-        console.log("로그인 시도:", username, password);
-        
-        // 실제 환경에서는 아래와 같이 API 호출을 해야 합니다
-        // const response = await fetch('/api/auth/login', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ username, password }),
-        // });
-        
-        // if (!response.ok) {
-        //   throw new Error('로그인에 실패했습니다');
-        // }
-        
-        // const data = await response.json();
-        
         // 임시 로그인 처리 (개발용)
         if (username === "aaa" && password === "bbb") {
-          login(username); // 로그인 상태 업데이트
-          router.push('/dashboard');
+          try {
+            // 로그인 상태 업데이트를 기다림
+            await login(username);
+            
+            // 인증 상태가 완전히 설정된 후 리디렉션
+            router.push('/dashboard');
+          } catch (error) {
+            console.error('로그인 처리 오류:', error);
+            setError('로그인 처리 중 오류가 발생했습니다');
+          }
         } else {
           router.push('/auth/failure');
         }
@@ -89,6 +79,7 @@ const Login = () => {
                     width={150}
                     height={60}
                     className="mb-2"
+                    style={{ height: 'auto' }}
                   />
                   <p className="text-lg text-green-700 italic mt-1 tracking-wide">Life, Intelligence, Future</p>
                 </div>

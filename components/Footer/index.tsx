@@ -35,6 +35,7 @@ const Footer = () => {
                     height={60}
                     src="/images/logo/lif-logo.svg"
                     alt="LIF 로고"
+                    style={{ height: 'auto' }}
                   />
                 </Link>
 

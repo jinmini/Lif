@@ -41,6 +41,7 @@ const Hero = () => {
                   width={46}
                   height={246}
                   className="absolute -left-11.5 top-0"
+                  style={{ height: 'auto' }}
                 />
                 <Image
                   src="/images/shape/shape-02.svg"
@@ -48,6 +49,7 @@ const Hero = () => {
                   width={36.9}
                   height={36.7}
                   className="absolute bottom-0 right-0 z-10"
+                  style={{ height: 'auto' }}
                 />
                 <Image
                   src="/images/shape/shape-03.svg"
@@ -55,6 +57,7 @@ const Hero = () => {
                   width={21.64}
                   height={21.66}
                   className="absolute -right-6.5 bottom-0 z-1"
+                  style={{ height: 'auto' }}
                 />
                 <div className=" relative aspect-[700/444] w-full">
                   <Image
@@ -62,12 +65,14 @@ const Hero = () => {
                     src="/images/hero/hero-light.svg"
                     alt="Hero"
                     fill
+                    priority
                   />
                   <Image
                     className="hidden shadow-solid-l dark:block"
                     src="/images/hero/hero-dark.svg"
                     alt="Hero"
                     fill
+                    priority
                   />
                 </div>
               </div>

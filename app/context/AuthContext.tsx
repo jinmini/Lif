@@ -9,9 +9,10 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string) => void;
+  login: (username: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,31 +20,51 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // 브라우저 로컬 스토리지에서 사용자 정보 로드
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsAuthenticated(true);
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.error('로컬 스토리지 접근 오류:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
-  const login = (username: string) => {
-    const newUser = { username };
-    setUser(newUser);
-    setIsAuthenticated(true);
-    localStorage.setItem('user', JSON.stringify(newUser));
+  const login = (username: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const newUser = { username };
+        setUser(newUser);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(newUser));
+        resolve();
+      } catch (error) {
+        console.error('로그인 처리 오류:', error);
+        reject(error);
+      }
+    });
   };
 
   const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem('user');
+    try {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem('user');
+    } catch (error) {
+      console.error('로그아웃 처리 오류:', error);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

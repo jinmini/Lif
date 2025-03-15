@@ -53,6 +53,8 @@ const Header = () => {
               alt="LIF 로고"
               width={120}
               height={60}
+              priority
+              style={{ height: 'auto' }}
               className="w-full"
             />
           </a>
