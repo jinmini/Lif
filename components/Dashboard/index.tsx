@@ -216,7 +216,7 @@ const Dashboard = () => {
                   <p className="text-black dark:text-white">#TX-5674</p>
                 </div>
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className="text-black dark:text-white">김민수</p>
+                  <p className="text-black dark:text-white">김진민</p>
                 </div>
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
                   <p className="text-black dark:text-white">정기예금</p>
@@ -236,7 +236,7 @@ const Dashboard = () => {
                   <p className="text-black dark:text-white">#TX-5673</p>
                 </div>
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                  <p className="text-black dark:text-white">이지은</p>
+                  <p className="text-black dark:text-white">김동희</p>
                 </div>
                 <div className="flex items-center justify-center p-2.5 xl:p-5">
                   <p className="text-black dark:text-white">주택담보대출</p>
