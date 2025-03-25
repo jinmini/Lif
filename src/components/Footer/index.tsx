@@ -88,7 +88,7 @@ const Footer = () => {
                     </li>
                     <li>
                       <Link
-                        href="/auth/signin"
+                        href="/signin"
                         className="mb-3 inline-block hover:text-primary"
                       >
                         로그인

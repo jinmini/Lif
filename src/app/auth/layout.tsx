@@ -1,15 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from "framer-motion";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "인증 - LIF",
-  description: "Life, Intelligence, Future - 인증 페이지"
-};
 
 export default function AuthLayout({
   children,

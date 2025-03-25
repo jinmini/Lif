@@ -62,7 +62,7 @@ export const useSignup = () => {
         password: data.password,
       });
 
-      router.push('/auth/signin?registered=true');
+      router.push('/?registered=true');
     } catch (err: any) {
       console.error('회원가입 오류:', err);
       

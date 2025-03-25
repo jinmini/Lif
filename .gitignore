@@ -38,3 +38,14 @@ yarn-error.log*
 .specstory/
 
 .cursorrules
+
+.gitattributes
+
+.cursor/
+**/.cursor/
+
+markdown/
+**/markdown/
+
+
+

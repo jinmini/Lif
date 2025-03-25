@@ -247,7 +247,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
                   이미 계정이 있으신가요?{" "}
                   <Link
                     className="text-black hover:text-primary dark:text-white dark:hover:text-primary"
-                    href="/auth/signin"
+                    href="/signin"
                   >
                     로그인
                   </Link>

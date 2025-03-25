@@ -58,7 +58,7 @@ const DashboardPage = () => {
     if (!isLoading) {
       if (!isAuthenticated) {
         // 인증되지 않은 경우 로그인 페이지로 리디렉션
-        router.push('/auth/signin');
+        router.push('/signin');
       } else {
         // 인증된 경우 페이지 로딩 완료 및 데이터 가져오기
         setIsPageLoading(false);

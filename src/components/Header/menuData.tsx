@@ -40,7 +40,7 @@ const menuData: Menu[] = [
         id: 34,
         title: "Sign In",
         newTab: false,
-        path: "/auth/signin",
+        path: "/signin",
       },
       {
         id: 35,

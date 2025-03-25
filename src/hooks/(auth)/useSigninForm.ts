@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 
-interface SigninFormState {
+interface SigninFormState { //상태의 타입 정의, 인터페이스는 객체의 타입을 정의하는 것
   id: string;
   password: string;
   error: string;
@@ -8,17 +8,17 @@ interface SigninFormState {
   isLoading: boolean;
 }
 
-export const useSigninForm = () => {
-  const [formState, setFormState] = useState<SigninFormState>({
-    id: '',
-    password: '',
+export const useSigninForm = () => { 
+  const [formState, setFormState] = useState<SigninFormState>({ //SigninFormState는 formState의 타입, formState는 상태를 가지고 있는 객체
+    id: '', //initial state
+    password: '', 
     error: '',
     success: '',
     isLoading: false
   });
 
   const setId = (id: string) => {
-    setFormState(prev => ({ ...prev, id }));
+    setFormState(prev => ({ ...prev, id })); //prev는 이전 상태, ...prev는 이전 상태를 복사, id는 새로운 상태, 
   };
 
   const setPassword = (password: string) => {
@@ -59,7 +59,7 @@ export const useSigninForm = () => {
   };
 
   return {
-    id: formState.id,
+    id: formState.id, //formState의 id를 반환, formState는 새로운 상태를 가지고 있는 객체, payload를 반환하는 것
     password: formState.password,
     error: formState.error,
     success: formState.success,
@@ -67,6 +67,6 @@ export const useSigninForm = () => {
     setId,
     setPassword,
     handleLogin
-  };
+  };//stateless component
 };
 

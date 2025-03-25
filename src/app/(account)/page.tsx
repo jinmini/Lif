@@ -30,7 +30,7 @@ export default function SigninFailure() {
           다시 시도해주시기 바랍니다.
         </p>
         <div className="h-px bg-stroke w-full dark:bg-strokedark"></div>
-        <Link href="/auth/signin" className="block text-center p-4 text-primary hover:bg-alabaster transition-colors font-medium dark:hover:bg-blackho">
+        <Link href="/signin" className="block text-center p-4 text-primary hover:bg-alabaster transition-colors font-medium dark:hover:bg-blackho">
           확인
         </Link>
       </motion.div>
