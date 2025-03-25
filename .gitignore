@@ -47,5 +47,5 @@ yarn-error.log*
 markdown/
 **/markdown/
 
-
+.env.production
 
