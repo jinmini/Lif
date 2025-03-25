@@ -6,13 +6,8 @@ import { useSigninForm } from '@/hooks/(auth)/useSigninForm';
 
 const SigninForm = () => {
   const {
-    id,
-    password,
-    error,
-    success,
-    isLoading,
-    setId,
-    setPassword,
+    formState,
+    handleChange,
     handleLogin
   } = useSigninForm();
 
@@ -22,15 +17,15 @@ const SigninForm = () => {
         로그인
       </h2>
 
-      {error && (
+      {formState.error && (
         <div className="mb-6 rounded-md bg-red-50 p-4 text-red-600 dark:bg-red-900/30 dark:text-red-400">
-          {error}
+          {formState.error}
         </div>
       )}
 
-      {success && (
+      {formState.success && (
         <div className="mb-6 rounded-md bg-green-50 p-4 text-green-600 dark:bg-green-900/30 dark:text-green-400">
-          {success}
+          {formState.success}
         </div>
       )}
             
@@ -39,8 +34,9 @@ const SigninForm = () => {
           <input
             type="text"
             placeholder="아이디"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            name="id"
+            value={formState.id}
+            onChange={handleChange}
             className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
           />
         </div>
@@ -48,8 +44,9 @@ const SigninForm = () => {
           <input
             type="password"
             placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={formState.password}
+            onChange={handleChange}
             className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
           />
         </div>
@@ -66,10 +63,10 @@ const SigninForm = () => {
         
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={formState.isLoading}
           className="w-full rounded-md bg-primary py-3 text-white transition-colors hover:bg-primary/90 mb-4"
         >
-          {isLoading ? '로그인 중...' : '로그인'}
+          {formState.isLoading ? '로그인 중...' : '로그인'}
         </button>
         
         <Link

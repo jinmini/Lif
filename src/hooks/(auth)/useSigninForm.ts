@@ -1,6 +1,9 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
+import { useAuth } from '@/app/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import api from '@/lib/api/axios'; 
 
-interface SigninFormState { //상태의 타입 정의, 인터페이스는 객체의 타입을 정의하는 것
+interface SigninFormState { 
   id: string;
   password: string;
   error: string;
@@ -9,20 +12,19 @@ interface SigninFormState { //상태의 타입 정의, 인터페이스는 객체
 }
 
 export const useSigninForm = () => { 
-  const [formState, setFormState] = useState<SigninFormState>({ //SigninFormState는 formState의 타입, formState는 상태를 가지고 있는 객체
-    id: '', //initial state
+  const router = useRouter();
+  const { signin } = useAuth();
+  const [formState, setFormState] = useState<SigninFormState>({ 
+    id: '', 
     password: '', 
     error: '',
     success: '',
     isLoading: false
   });
 
-  const setId = (id: string) => {
-    setFormState(prev => ({ ...prev, id })); //prev는 이전 상태, ...prev는 이전 상태를 복사, id는 새로운 상태, 
-  };
-
-  const setPassword = (password: string) => {
-    setFormState(prev => ({ ...prev, password }));
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormState(prev => ({ ...prev, [name]: value }));
   };
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,36 +39,47 @@ export const useSigninForm = () => {
     }
 
     try {
-  
       setFormState(prev => ({ ...prev, isLoading: true, error: '' }));
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await api.post('/auth/signin', {
+        email: formState.id,
+        password: formState.password
+      });
 
-      setFormState(prev => ({
-        ...prev,
-        success: '로그인 성공! 메인 페이지로 이동합니다.',
-        isLoading: false
-      }));
+      const responseData = response.data as { 
+        success: boolean; 
+        message: string;
+        token?: string;
+        user_id?: string;
+      };
+      
+      if (responseData.success) {
+        await signin(responseData.user_id || formState.id, {
+          name: '사용자',
+          email: formState.id
+        });
 
+        router.push('/dashboard');
+      } else {
+        throw new Error(responseData.message || '로그인에 실패했습니다.');
+      }
     } catch (error) {
-
+      console.error('로그인 오류:', error);
+      
       setFormState(prev => ({
         ...prev,
-        error: '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.',
+        error: error instanceof Error 
+          ? error.message 
+          : '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.',
         isLoading: false
       }));
     }
   };
 
   return {
-    id: formState.id, //formState의 id를 반환, formState는 새로운 상태를 가지고 있는 객체, payload를 반환하는 것
-    password: formState.password,
-    error: formState.error,
-    success: formState.success,
-    isLoading: formState.isLoading,
-    setId,
-    setPassword,
+    formState,
+    handleChange,
     handleLogin
-  };//stateless component
+  };
 };
 

@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-
 const api = axios.create({ //axios 인스턴스 생성, 기본 설정 정의, Metadata 정의
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
