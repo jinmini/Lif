@@ -2,6 +2,7 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api/axios'; 
+import { useUserStore } from '@/store/account/guest/customer/store';
 
 interface SigninFormState { 
   id: string;
@@ -14,6 +15,7 @@ interface SigninFormState {
 export const useSigninForm = () => { 
   const router = useRouter();
   const { signin } = useAuth();
+  const setUserInfo = useUserStore(state => state.setUserInfo);
   const [formState, setFormState] = useState<SigninFormState>({ 
     id: '', 
     password: '', 
@@ -41,7 +43,7 @@ export const useSigninForm = () => {
     try {
       setFormState(prev => ({ ...prev, isLoading: true, error: '' }));
 
-      const response = await api.post('/auth/signin', {
+      const response = await api.post('/auth/signin', { 
         email: formState.id,
         password: formState.password
       });
@@ -54,7 +56,15 @@ export const useSigninForm = () => {
       };
       
       if (responseData.success) {
-        await signin(responseData.user_id || formState.id, {
+        // zustand 스토어에 사용자 정보 저장
+        const userId = responseData.user_id || formState.id;
+        setUserInfo(
+          userId,
+          formState.id,  // email
+          '사용자'       // name
+        );
+
+        await signin(userId, {
           name: '사용자',
           email: formState.id
         });
