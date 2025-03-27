@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuthStore, getUser, getIsAuthenticated } from "@/store";
 
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
@@ -16,7 +16,11 @@ const Header = () => {
 
   const pathUrl = usePathname();
   const router = useRouter();
-  const { user, isAuthenticated, signout } = useAuth();
+  
+  // useAuth 대신 useAuthStore 사용
+  const user = useAuthStore(getUser);
+  const isAuthenticated = useAuthStore(getIsAuthenticated);
+  const signout = useAuthStore(state => state.signout);
 
   // Sticky menu
   const handleStickyMenu = () => {

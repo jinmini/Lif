@@ -1,12 +1,13 @@
 "use client";
 
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuthStore, getUser, getIsAuthenticated } from "@/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function ProfilePage() {
-  const { user, isAuthenticated } = useAuth();
+  const user = useAuthStore(getUser);
+  const isAuthenticated = useAuthStore(getIsAuthenticated);
   const router = useRouter();
 
   useEffect(() => {

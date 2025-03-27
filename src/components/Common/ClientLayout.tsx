@@ -1,32 +1,34 @@
 "use client";
 
+import { useEffect } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Lines from "@/components/Lines";
 import ScrollToTop from "@/components/ScrollToTop";
 import { ThemeProvider } from "next-themes";
-import ToasterContext from "@/app/context/ToastContext";
-import { AuthProvider } from "@/app/context/AuthContext";
+import { initializeAuth } from "@/store";
 
 export default function ClientLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // 인증 상태 초기화
+  useEffect(() => {
+    initializeAuth();
+  }, []);
+
   return (
     <ThemeProvider
       enableSystem={false}
       attribute="class"
       defaultTheme="light"
     >
-      <AuthProvider>
-        <Lines />
-        <Header />
-        <ToasterContext />
-        {children}
-        <Footer />
-        <ScrollToTop />
-      </AuthProvider>
+      <Lines />
+      <Header />
+      {children}
+      <Footer />
+      <ScrollToTop />
     </ThemeProvider>
   );
 } 

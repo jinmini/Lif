@@ -1,8 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
-import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api/axios'; 
-import { useUserStore } from '@/store/auth/user/store';
+import { useUserStore, useAuthStore } from '@/store';
 
 interface SigninFormState { 
   id: string;
@@ -14,8 +13,9 @@ interface SigninFormState {
 
 export const useSigninForm = () => { 
   const router = useRouter();
-  const { signin } = useAuth();
   const { setUserId, updateEmail, updateName } = useUserStore();
+  const signin = useAuthStore(state => state.signin);
+  
   const [formState, setFormState] = useState<SigninFormState>({ 
     id: '', 
     password: '', 
@@ -56,18 +56,24 @@ export const useSigninForm = () => {
       };
       
       if (responseData.success) {
-        
         const userId = responseData.user_id || formState.id;
         
-        
+        // Zustand 스토어 업데이트
         setUserId(userId);
         updateEmail(formState.id);
         updateName('사용자');
 
+        // AuthStore로 로그인 처리
         await signin(userId, {
           name: '사용자',
           email: formState.id
-        });
+        }, responseData.token);
+
+        // 성공 메시지 설정
+        setFormState(prev => ({
+          ...prev,
+          success: '로그인에 성공했습니다.'
+        }));
 
         router.push('/dashboard');
       } else {
@@ -76,11 +82,14 @@ export const useSigninForm = () => {
     } catch (error) {
       console.error('로그인 오류:', error);
       
+      // 에러 메시지 표시
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.';
+      
       setFormState(prev => ({
         ...prev,
-        error: error instanceof Error 
-          ? error.message 
-          : '로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.',
+        error: errorMessage,
         isLoading: false
       }));
     }
