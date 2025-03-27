@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const api = axios.create({ //axios 인스턴스 생성, 기본 설정 정의, Metadata 정의
+const api = axios.create({ 
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
-// API 연결 테스트 함수
+
 export const testApiConnection = async () => {
   try {
     const response = await api.get('/');

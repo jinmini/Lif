@@ -2,7 +2,7 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api/axios'; 
-import { useUserStore } from '@/store/account/guest/customer/store';
+import { useUserStore } from '@/store/auth/user/store';
 
 interface SigninFormState { 
   id: string;
@@ -15,7 +15,7 @@ interface SigninFormState {
 export const useSigninForm = () => { 
   const router = useRouter();
   const { signin } = useAuth();
-  const setUserInfo = useUserStore(state => state.setUserInfo);
+  const { setUserId, updateEmail, updateName } = useUserStore();
   const [formState, setFormState] = useState<SigninFormState>({ 
     id: '', 
     password: '', 
@@ -24,7 +24,7 @@ export const useSigninForm = () => {
     isLoading: false
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => { 
     const { name, value } = e.target;
     setFormState(prev => ({ ...prev, [name]: value }));
   };
@@ -56,13 +56,13 @@ export const useSigninForm = () => {
       };
       
       if (responseData.success) {
-        // zustand 스토어에 사용자 정보 저장
+        
         const userId = responseData.user_id || formState.id;
-        setUserInfo(
-          userId,
-          formState.id,  // email
-          '사용자'       // name
-        );
+        
+        
+        setUserId(userId);
+        updateEmail(formState.id);
+        updateName('사용자');
 
         await signin(userId, {
           name: '사용자',
