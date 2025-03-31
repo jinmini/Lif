@@ -4,10 +4,12 @@ import { useAuthStore, getUser, getIsAuthenticated } from "@/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import api from "@/lib/api/axios";
 
 export default function ProfilePage() {
   const user = useAuthStore(getUser);
   const isAuthenticated = useAuthStore(getIsAuthenticated);
+  const signout = useAuthStore(state => state.signout);
   const router = useRouter();
 
   useEffect(() => {
@@ -15,6 +17,26 @@ export default function ProfilePage() {
       router.push("/signin");
     }
   }, [isAuthenticated, router]);
+
+  const handleLogout = async () => {
+    try {
+      // 백엔드 로그아웃 API 호출
+      if (user?.user_id) {
+        await api.post('/auth/signout', { user_id: user.user_id });
+      }
+      
+      // 로컬 상태 및 토큰 초기화
+      signout();
+      
+      // 로그인 페이지로 리다이렉트
+      router.push('/signin');
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+      // 오류가 발생해도 로컬에서는 로그아웃 처리
+      signout();
+      router.push('/signin');
+    }
+  };
 
   if (!isAuthenticated || !user) {
     return null;
@@ -87,6 +109,15 @@ export default function ProfilePage() {
                 <span className="font-medium text-black dark:text-white">활성</span>
               </div>
             </div>
+          </div>
+          
+          <div className="mb-10 flex justify-center">
+            <button
+              onClick={handleLogout}
+              className="rounded-md bg-red-600 px-8 py-3 text-white transition-all hover:bg-red-700"
+            >
+              로그아웃
+            </button>
           </div>
         </motion.div>
       </div>

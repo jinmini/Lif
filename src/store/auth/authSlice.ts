@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
+import { removeAccessToken } from '@/lib/api/authToken';
 
 // 사용자 타입 정의
 interface User {
@@ -71,6 +72,10 @@ export const useAuthStore = create<AuthStore>()(
         },
         
         signout: () => {
+          // 로컬 스토리지에서 토큰 제거
+          removeAccessToken();
+          console.log('로그아웃: 액세스 토큰이 제거되었습니다.');
+          
           set((state) => {
             state.user = null;
             state.isAuthenticated = false;

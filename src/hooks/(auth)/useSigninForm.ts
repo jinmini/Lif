@@ -1,6 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api/axios'; 
+import { setAccessToken } from '@/lib/api/authToken';
 import { useUserStore, useAuthStore } from '@/store';
 
 interface SigninFormState { 
@@ -40,6 +41,8 @@ export const useSigninForm = () => {
       return;
     }
 
+    console.log(`로그인 시도: ${formState.id}, ${formState.password}`);
+
     try {
       setFormState(prev => ({ ...prev, isLoading: true, error: '' }));
 
@@ -48,15 +51,24 @@ export const useSigninForm = () => {
         password: formState.password
       });
 
+      console.log('로그인 응답:', response.data);
+
       const responseData = response.data as { 
         success: boolean; 
         message: string;
         token?: string;
+        refresh_token?: string;
         user_id?: string;
       };
       
       if (responseData.success) {
         const userId = responseData.user_id || formState.id;
+        
+        // 액세스 토큰 저장
+        if (responseData.token) {
+          setAccessToken(responseData.token);
+          console.log('Access token이 저장되었습니다.');
+        }
         
         // Zustand 스토어 업데이트
         setUserId(userId);

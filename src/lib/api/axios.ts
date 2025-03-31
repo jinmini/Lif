@@ -1,9 +1,20 @@
 import axios from 'axios'
+import { getAccessToken } from './authToken'
 
 const api = axios.create({ 
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
+// 요청 인터셉터: API 요청 시 토큰을 헤더에 추가
+api.interceptors.request.use((config) => {
+  const token = getAccessToken()
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+}, (error) => {
+  return Promise.reject(error)
+})
 
 export const testApiConnection = async () => {
   try {
@@ -22,14 +33,5 @@ export const testApiConnection = async () => {
     };
   }
 };
-
-// api.interceptors.request.use((config) => {
-//   // const token = useAuthStore.getState().accessToken
-//   // if (token) {
-//   //   config.headers.Authorization = `Bearer ${token}`
-//   // }
-//   config.headers.Authorization = `Bearer blah blah blah`
-//   return config
-// })
 
 export default api
