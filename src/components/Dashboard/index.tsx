@@ -3,6 +3,9 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import Link from "next/link";
+import DebtLiquidityChart from './DebtLiquidityChart';
+import ProfitabilityChart from './ProfitabilityChart';
+import GrowthChart from './GrowthChart';
 
 const Dashboard = () => {
   return (
@@ -29,8 +32,8 @@ const Dashboard = () => {
         >
           <div className="mb-8 flex items-center justify-between border-b border-stroke pb-5 dark:border-strokedark">
             <div>
-              <h2 className="text-3xl font-semibold text-black dark:text-white">금융 대시보드</h2>
-              <p className="mt-1 text-base text-waterloo dark:text-manatee">환영합니다! 금융 데이터 대시보드입니다.</p>
+              <h2 className="text-3xl font-semibold text-black dark:text-white">LIF 대시보드</h2>
+              <p className="mt-1 text-base text-waterloo dark:text-manatee">환영합니다! LIF 데이터 대시보드입니다.</p>
             </div>
             <Link
               href="/"
@@ -133,47 +136,13 @@ const Dashboard = () => {
           
           {/* 차트 섹션 */}
           <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-blacksection">
-              <div className="mb-3 justify-between gap-4 sm:flex">
-                <div>
-                  <h5 className="text-xl font-semibold text-black dark:text-white">
-                    월별 거래량
-                  </h5>
-                </div>
-              </div>
-              
-              <div className="h-[300px] w-full">
-                <div className="flex h-full items-center justify-center">
-                  <div className="h-full w-full bg-[#F8FAFC] dark:bg-[#1C2136] flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-waterloo dark:text-manatee">차트 데이터 로딩 중...</p>
-                      <p className="mt-2 text-sm text-waterloo dark:text-manatee">실제 구현 시 차트 라이브러리 연동 필요</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-blacksection">
-              <div className="mb-3 justify-between gap-4 sm:flex">
-                <div>
-                  <h5 className="text-xl font-semibold text-black dark:text-white">
-                    상품별 매출 비중
-                  </h5>
-                </div>
-              </div>
-              
-              <div className="h-[300px] w-full">
-                <div className="flex h-full items-center justify-center">
-                  <div className="h-full w-full bg-[#F8FAFC] dark:bg-[#1C2136] flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-waterloo dark:text-manatee">차트 데이터 로딩 중...</p>
-                      <p className="mt-2 text-sm text-waterloo dark:text-manatee">실제 구현 시 차트 라이브러리 연동 필요</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DebtLiquidityChart />
+            <ProfitabilityChart />
+          </div>
+          
+          {/* 성장성 지표 차트 */}
+          <div className="mb-8 grid grid-cols-1 gap-4">
+            <GrowthChart />
           </div>
           
           {/* 최근 거래 내역 */}
