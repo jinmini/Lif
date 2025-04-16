@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSigninForm } from '@/hooks/(auth)/useSigninForm';
+import { signIn } from 'next-auth/react';
 
 const SigninForm = () => {
   const {
@@ -85,6 +86,7 @@ const SigninForm = () => {
               aria-label="signin with google"
               className="flex h-11 w-11 items-center justify-center rounded-md border border-stroke bg-white text-black transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-strokedark dark:bg-black dark:text-white dark:hover:border-primary"
               type="button"
+              onClick={() => signIn('google')}
             >
               <svg
                 width="20"
@@ -123,6 +125,7 @@ const SigninForm = () => {
               aria-label="signin with github"
               className="flex h-11 w-11 items-center justify-center rounded-md border border-stroke bg-white text-black transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-strokedark dark:bg-black dark:text-white dark:hover:border-primary"
               type="button"
+              onClick={() => signIn('github')}
             >
               <svg
                 fill="currentColor"

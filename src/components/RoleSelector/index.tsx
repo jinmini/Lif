@@ -2,27 +2,36 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 type Role = 'user' | 'subscriber' | 'admin';
 
 const RoleSelector = () => {
   const router = useRouter();
+  const { data: session, update } = useSession();
   const [currentRole, setCurrentRole] = useState<Role>('user');
   
   useEffect(() => {
-    // 현재 설정된 역할 가져오기
-    const storedRole = localStorage.getItem('userRole') as Role;
-    if (storedRole) {
-      setCurrentRole(storedRole);
+    // 세션에서 역할 가져오기
+    if(session?.user?.role){
+      setCurrentRole(session.user.role as Role);
     }
-  }, []);
+    else{
+      const storedRole = localStorage.getItem('userRole') as Role;
+      if (storedRole) {
+        setCurrentRole(storedRole);
+      }
+    }
+  }, [session]);
   
-  const handleRoleChange = (role: Role) => {
+  const handleRoleChange = async(role: Role) => {
     // 로컬 스토리지에 역할 저장
     localStorage.setItem('userRole', role);
     setCurrentRole(role);
+
+    await update({ role });
     
-    // 현재 경로가 /dashboard로 시작하면 역할에 맞는 대시보드로 리디렉션
+    // 리디렉션
     const path = window.location.pathname;
     if (path.startsWith('/dashboard')) {
       router.push(`/dashboard/${role}`);
