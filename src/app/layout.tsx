@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import ClientLayout from '../components/Common/ClientLayout';
 import NextAuthSessionProvider from "@/components/Providers/SessionProvier";
+import ToastProvider from '@/components/Providers/ToastProvider';
 const inter = Inter({ subsets: ["latin"],display: 'swap'});
 
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className={`dark:bg-black ${inter.className}`}>
         <ClientLayout>{children}</ClientLayout>
+        <ToastProvider />
       </body>
     </html>
     </NextAuthSessionProvider>

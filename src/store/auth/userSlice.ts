@@ -5,7 +5,6 @@ import { immer } from 'zustand/middleware/immer';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
 import api from '@/lib/api/axios';
 
-
 interface UserState {
   user_id: string;
   name: string;
