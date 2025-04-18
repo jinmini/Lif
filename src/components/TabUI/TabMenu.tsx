@@ -69,7 +69,7 @@ export const FinanceDashboardTabs: React.FC<{ children?: React.ReactNode }> = ({
   const tabItems: TabItem[] = [
     {
       id: 'summary',
-      label: '전체 요약',
+      label: '경영',
       icon: <BarChart3 size={18} />,
       content: (
         <div className="mt-4">

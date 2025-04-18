@@ -1,102 +1,62 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import Link from "next/link";
 import DebtLiquidityChart from './DebtLiquidityChart';
 import ProfitabilityChart from './ProfitabilityChart';
 import GrowthChart from './GrowthChart';
 import DashboardTabs from './DashboardTabs';
+import SearchCompanyBox from './SearchCompanyBox';
+import EsgGradeCard from './EsgGradeCard';
 
 const Dashboard = () => {
+
+  const [currentCompany, setCurrentCompany] = useState<string>('');
+
+  const handleCompanySearch = (company: string) => {
+    setCurrentCompany(company);
+    // 여기서 실제 회사 데이터를 불러오는 API 호출이 이루어질 수 있습니다.
+    console.log(`검색된 기업: ${company}`);
+  };
+
+
   const summaryContent = (
     <>
-      {/* 대시보드 메트릭 섹션 */}
+      {/* 대시보드 메트릭 섹션 - ESG 등급 카드 */}
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-blacksection">
-          <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta bg-opacity-20">
-            <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 15.1156C4.19376 15.1156 0.825012 8.61876 0.825012 8.61876C0.825012 8.61876 4.19376 2.12189 11 2.12189C17.8063 2.12189 21.175 8.61876 21.175 8.61876C21.175 8.61876 17.8063 15.1156 11 15.1156Z" stroke="#20C5A8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M11 11.4281C12.5062 11.4281 13.7281 10.2062 13.7281 8.70001C13.7281 7.19376 12.5062 5.97189 11 5.97189C9.49375 5.97189 8.27188 7.19376 8.27188 8.70001C8.27188 10.2062 9.49375 11.4281 11 11.4281Z" stroke="#20C5A8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div className="mt-4 flex items-end justify-between">
-            <div>
-              <h4 className="text-title-md font-bold text-black dark:text-white">
-                3,456
-              </h4>
-              <span className="text-sm font-medium">총 방문자</span>
-            </div>
-            <span className="flex items-center gap-1 text-sm font-medium text-meta">
-              +2.5%
-            </span>
-          </div>
-        </div>
-        
-        <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-blacksection">
-          <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-primary bg-opacity-20">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="#006BFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M10 6.25V10H13.75" stroke="#006BFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div className="mt-4 flex items-end justify-between">
-            <div>
-              <h4 className="text-title-md font-bold text-black dark:text-white">
-                45.2%
-              </h4>
-              <span className="text-sm font-medium">전환율</span>
-            </div>
-            <span className="flex items-center gap-1 text-sm font-medium text-meta">
-              +4.2%
-            </span>
-          </div>
-        </div>
-        
-        <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-blacksection">
-          <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-warning bg-opacity-20">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.5 15.5V6.5C17.5 5.94772 17.0523 5.5 16.5 5.5H5.5C4.94772 5.5 4.5 5.94772 4.5 6.5V15.5C4.5 16.0523 4.94772 16.5 5.5 16.5H16.5C17.0523 16.5 17.5 16.0523 17.5 15.5Z" stroke="#FFA800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M11 14C12.6569 14 14 12.6569 14 11C14 9.34315 12.6569 8 11 8C9.34315 8 8 9.34315 8 11C8 12.6569 9.34315 14 11 14Z" stroke="#FFA800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 5.5L8 2.5" stroke="#FFA800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M17 5.5L14 2.5" stroke="#FFA800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M17 16.5L14 19.5" stroke="#FFA800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 16.5L8 19.5" stroke="#FFA800" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div className="mt-4 flex items-end justify-between">
-            <div>
-              <h4 className="text-title-md font-bold text-black dark:text-white">
-                ₩2,450,000
-              </h4>
-              <span className="text-sm font-medium">총 수익</span>
-            </div>
-            <span className="flex items-center gap-1 text-sm font-medium text-meta">
-              +8.9%
-            </span>
-          </div>
-        </div>
-        
-        <div className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-blacksection">
-          <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-danger bg-opacity-20">
-            <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 9H1" stroke="#F9327A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M21 2H1" stroke="#F9327A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M21 16H1" stroke="#F9327A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div className="mt-4 flex items-end justify-between">
-            <div>
-              <h4 className="text-title-md font-bold text-black dark:text-white">
-                96.8%
-              </h4>
-              <span className="text-sm font-medium">고객 만족도</span>
-            </div>
-            <span className="flex items-center gap-1 text-sm font-medium text-meta">
-              +1.4%
-            </span>
-          </div>
-        </div>
+        <EsgGradeCard 
+          title="종합 등급" 
+          grades={[
+            { year: 2022, grade: 'B+' },
+            { year: 2023, grade: 'B+' },
+            { year: 2024, grade: 'A' }
+          ]}
+        />
+        <EsgGradeCard 
+          title="환경(E)" 
+          grades={[
+            { year: 2022, grade: 'B' },
+            { year: 2023, grade: 'A' },
+            { year: 2024, grade: 'A+' }
+          ]}
+        />
+        <EsgGradeCard 
+          title="사회(S)" 
+          grades={[
+            { year: 2022, grade: 'C+' },
+            { year: 2023, grade: 'C+' },
+            { year: 2024, grade: 'B' }
+          ]}
+        />
+        <EsgGradeCard 
+          title="지배구조(G)" 
+          grades={[
+            { year: 2022, grade: 'B' },
+            { year: 2023, grade: 'B+' },
+            { year: 2024, grade: 'A' }
+          ]}
+        />
       </div>
       
       {/* 차트 섹션 */}
@@ -113,7 +73,7 @@ const Dashboard = () => {
       {/* 최근 거래 내역 */}
       <div className="rounded-sm border border-stroke bg-white px-5 pb-5 pt-6 shadow-default dark:border-strokedark dark:bg-blacksection">
         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-          최근 거래 내역
+          실시간 주가
         </h4>
         
         <div className="flex flex-col">
@@ -386,7 +346,19 @@ const Dashboard = () => {
               </svg>
             </Link>
           </div>
-          
+
+          {/* 검색 박스 추가 */}
+          <div className="mb-6">
+            <SearchCompanyBox onSearch={handleCompanySearch} />
+            {currentCompany && (
+              <div className="mt-2 px-4 py-2 bg-primary bg-opacity-10 rounded-lg">
+                <h3 className="text-lg font-medium text-primary">
+                  현재 분석 중인 기업: <span className="font-semibold">{currentCompany}</span>
+                </h3>
+              </div>
+            )}
+          </div>
+      
           {/* 탭 UI 추가 */}
           <DashboardTabs
             financialContent={financeContent}
